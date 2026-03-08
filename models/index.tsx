@@ -1,14 +1,15 @@
 import { Sequelize } from "sequelize-typescript";
-import { Candidate } from "./candidate";
-import { Recruiter } from "./recruiter";
+import { Candidate } from "@/models/candidate";
+import { Recruiter } from "@/models/recruiter";
 
-const sequelize = new Sequelize({
+export const sequelize = new Sequelize({
   database: process.env.DB_NAME || "database",
-  username: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD,
+  username: process.env.DB_USER || "postgres",
+  password: process.env.DB_PASSWORD || "postgres", // ⚠ must be string
   host: process.env.DB_HOST || "localhost",
   dialect: "postgres",
   models: [Candidate, Recruiter],
+  logging: false,
 });
 
 export const dbInit = async () => {

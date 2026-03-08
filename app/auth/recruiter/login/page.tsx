@@ -39,7 +39,7 @@ export default function Login() {
 
         {/* LEFT PANEL */}
         <div className="hidden lg:flex items-center justify-center">
-          <div className="h-[520px] w-[520px] rounded-xl bg-gradient-to-t from-[#0071B6] to-[#00B2E9] p-9 text-white flex flex-col justify-center">
+          <div className="h-[580px] w-[520px] rounded-xl bg-gradient-to-t  from-[#0071B6] to-[#00B2E9] p-4 text-white flex flex-col justify-center">
 
             <Typography
               component="div"
@@ -58,8 +58,8 @@ export default function Login() {
             </Typography>
 
             <Typography
-              className="slide-up text-center mt-4"
-              sx={{ fontSize: 18, fontWeight: 500 }}
+              className="slide-up  mt-4  gap-4 p-3 align-left-right"
+              sx={{ fontSize: 20, fontWeight: 550 }}
             >
               CHAL Curatal to streamline your tech hiring and get top-tier talent fast.
             </Typography>

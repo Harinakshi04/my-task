@@ -35,7 +35,44 @@ export default function Signup() {
       setForm((prev) => ({ ...prev, [name]: checked }));
     }
   };
+   const handleSignup = async () => {
+  try {
+    if (!email || !mobile || !form.password || !gender) {
+      alert("Please fill all fields");
+      return;
+    }
 
+    if (!form.agree) {
+      alert("Please accept terms & conditions");
+      return;
+    }
+
+    const res = await fetch("/api/auth/candidate/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        mobile,
+        password: form.password,
+        gender,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("Signup successful 🎉");
+      router.push("/auth/candidate/login");
+    } else {
+      alert(data.message);
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong");
+  }
+};
   const features: string[] = [
     "Build a standout resume with customizable templates",
     "Get matched with jobs tailored to your skills",
@@ -147,7 +184,12 @@ export default function Signup() {
 
           {/* SUBMIT BUTTON */}
           <div className="gap-1   " >
-          <Button onClick={() => router.push("/auth/candidate/login")} className=" w-full bg-blue-600 text-white hover:bg-blue-700" >Sign Up</Button>
+           <Button
+            onClick={handleSignup}
+             className="w-full bg-blue-600 text-white hover:bg-blue-700">
+
+                Sign Up
+              </Button>
         <Divider sx={{ my: 2 }}>
           <Typography align="center" sx={{ fontSize: 14, fontWeight: 500 }}>
             Or Continue with

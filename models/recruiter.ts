@@ -7,22 +7,22 @@ export class Recruiter extends Model {
   id!: number;
 
   @Column({ allowNull: false })
-  companyName!: string;
+  FirstName!: string;
+
+  @Column({ allowNull: false })
+  LastName!: string;
+
+   @Column({ allowNull: false })
+  CompanyName!: string;
 
   @Column({ allowNull: false, unique: true })
   email!: string;
 
-  @Column({ allowNull: false })
-  password!: string;
-
-  @Column({})
-  contactPerson!: string;
-
   @Column({})
   phone!: string;
 
-  @Column({})
-  companyWebsite!: string;
+  @Column({ allowNull: false })
+  password!: string;
 
   @Column({ defaultValue: false })
   isVerified!: boolean;

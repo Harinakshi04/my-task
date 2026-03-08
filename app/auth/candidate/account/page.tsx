@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Typography from "@mui/material/Typography";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -16,6 +18,7 @@ export default function LoginPage() {
   ];
 
   return (
+   
     <main className="min-h-screen bg-white flex items-center justify-center px-4">
       <div className="w-full max-w-7xl bg-[#EBF7FF] rounded-2xl p-10 flex flex-col lg:flex-row gap-10">
 
@@ -139,5 +142,6 @@ export default function LoginPage() {
 
       </div>
     </main>
+    
   );
 };
