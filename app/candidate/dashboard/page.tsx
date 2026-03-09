@@ -35,17 +35,17 @@ const DashboardPage: React.FC = () => {
 
   const slides = [
     {
-      image: "/mentor1.png",
+      image: "/Mentoring.webp",
       title: "Level up your tech stack",
       subtitle: "Connect with a mentor now.",
     },
     {
-      image: "/mentor2.png",
+      image: "/Coaching.webp",
       title: "Get career guidance",
       subtitle: "Talk to industry experts.",
     },
     {
-      image: "/mentor3.png",
+      image: "/Mock interiview.webp",
       title: "Mock Interviews",
       subtitle: "Practice with experienced mentors.",
     },
@@ -319,7 +319,7 @@ const DashboardPage: React.FC = () => {
 
             }}
           >
-            View ALL1
+            View ALL
           </span>
                     </Typography>
                       </div>    

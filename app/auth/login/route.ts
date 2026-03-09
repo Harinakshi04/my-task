@@ -2,12 +2,11 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { Candidate } from "@/models/candidate";
+import { Recruiter } from "@/models/recruiter";
 import { dbInit } from "@/lib/db";
 
 export async function POST(req: Request) {
   try {
-
-    // connect database
     await dbInit();
 
     const { email, password } = await req.json();
@@ -19,10 +18,15 @@ export async function POST(req: Request) {
       );
     }
 
-    // find candidate
-    const user = await Candidate.findOne({
-      where: { email },
-    });
+    // check candidate first
+    let user: any = await Candidate.findOne({ where: { email } });
+    let role = "candidate";
+
+    // if not candidate → check recruiter
+    if (!user) {
+      user = await Recruiter.findOne({ where: { email } });
+      role = "recruiter";
+    }
 
     if (!user) {
       return NextResponse.json(
@@ -32,10 +36,7 @@ export async function POST(req: Request) {
     }
 
     // compare password
-    const isMatch = await bcrypt.compare(
-      password,
-      user.password
-    );
+    const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
       return NextResponse.json(
@@ -44,11 +45,12 @@ export async function POST(req: Request) {
       );
     }
 
-    // create JWT token
+    // create token
     const token = jwt.sign(
       {
         id: user.id,
         email: user.email,
+        role: role,
       },
       process.env.JWT_SECRET!,
       { expiresIn: "1d" }
@@ -57,6 +59,11 @@ export async function POST(req: Request) {
     return NextResponse.json({
       message: "Login successful",
       token,
+      role,
+      redirect:
+        role === "candidate"
+          ? "/candidate/dashboard"
+          : "/recruiter/dashboard",
     });
 
   } catch (error) {

@@ -1,31 +1,29 @@
-"use client";
+'use client';
 
 import { useState } from "react";
 import {
-  FaBriefcase,
-  FaUsers,
-  FaUserTie,
+  FaHome,
   FaClipboardList,
-  FaBell,
+  FaBriefcase,
+  FaUserGraduate,
+  FaFileAlt,
+  FaComments,
 } from "react-icons/fa";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 
-export default function Sidebar() {
+export default function CandidateSidebar() {
   const [collapsed, setCollapsed] = useState(false);
 
   const menu = [
-    { name: "Dashboard", icon: <FaUserTie /> },
-    { name: "Create Job", icon: <FaClipboardList /> },
+    { name: "Dashboard", icon: <FaHome /> },
     { name: "Jobs", icon: <FaBriefcase /> },
-    { name: "Candidate Search", icon: <FaUsers /> },
-    { name: "Account Management", icon: <FaUserTie /> },
-    { name: "Netting", icon: <FaUserTie /> },
-    { name: "Reports", icon: <FaUserTie /> },
-    { name: "Banner", icon: <FaUserTie /> },
-    { name: "Events", icon: <FaUserTie /> },
-    { name: "Tools", icon: <FaUserTie /> },
-    { name: "Coach Management", icon: <FaUserTie /> },
-    { name: "Interviewer Subscription", icon: <FaBell /> },
+    { name: "My Interviews", icon: <FaClipboardList /> },
+    { name: "Coaching", icon: <FaUserGraduate /> },
+    { name: "Resume Builder", icon: <FaFileAlt /> },
+    { name: "Refer Your Friends", icon: <FaComments /> },
+    { name: "Mentoring", icon: <FaComments /> },
+    { name: "Mock Interview", icon: <FaComments /> },
+    { name: "Recruitment Events", icon: <FaComments /> },
   ];
 
   return (
@@ -56,4 +54,4 @@ export default function Sidebar() {
       </ul>
     </div>
   );
-}
+};

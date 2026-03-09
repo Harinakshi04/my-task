@@ -1,29 +1,22 @@
-import { Table, Column, Model } from "sequelize-typescript";
+import { Table, Column, Model, DataType } from "sequelize-typescript";
 
-@Table({ tableName: "recruiters" })
+@Table({ tableName: "recruiters", timestamps: true })
 export class Recruiter extends Model {
-
-  @Column({ primaryKey: true, autoIncrement: true })
-  id!: number;
-
-  @Column({ allowNull: false })
-  FirstName!: string;
-
-  @Column({ allowNull: false })
-  LastName!: string;
-
-   @Column({ allowNull: false })
-  CompanyName!: string;
-
-  @Column({ allowNull: false, unique: true })
+  @Column({ type: DataType.STRING, allowNull: false, unique: true })
   email!: string;
 
-  @Column({})
-  phone!: string;
-
-  @Column({ allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: false })
   password!: string;
 
-  @Column({ defaultValue: false })
-  isVerified!: boolean;
+  @Column({ type: DataType.STRING, allowNull: true })
+  companyName?: string;
+
+  @Column({ type: DataType.STRING, allowNull: true })
+  phone?: string;
+
+  @Column({ type: DataType.STRING, allowNull: true })
+  firstName?: string;
+
+  @Column({ type: DataType.STRING, allowNull: true })
+  lastName?: string;
 }

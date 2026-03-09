@@ -63,7 +63,7 @@ export default function Signup() {
     const data = await res.json();
 
     if (res.ok) {
-      alert("Signup successful 🎉");
+      
       router.push("/auth/candidate/login");
     } else {
       alert(data.message);

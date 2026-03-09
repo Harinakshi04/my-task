@@ -19,18 +19,53 @@ import IconButton from "@mui/material/IconButton";
 import CuratalLogo from "@/public/curatalLogo.jpg";
 import { useEffect } from "react";
 
-export default function Login() {
-  const router = useRouter();
-   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const features: string[] = [
     "Database offers pre-interviewed and AI-assessed candidates",
     "Assessment includes video, coding, and AI-powered evaluations",
     "Events focus on diversity, women empowerment, and immediate joiners",
     "Engage delivers top-rated candidates through impactful hackathons",
   ];
-  
+
+export default function RecruiterLogin() {
+  const router = useRouter();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleLogin = async (e: any) => {
+  e.preventDefault();
+
+  try {
+    const res = await fetch("/api/auth/recruiter/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message);
+    }
+
+    localStorage.setItem("token", data.token);
+
+    alert("Login successful");
+
+    router.push("/recruiter/dashboard");
+
+  } catch (error: any) {
+    console.error("Login Error:", error.message);
+    alert(error.message);
+  }
+};
   return (
     
 
@@ -146,10 +181,13 @@ export default function Login() {
             Forgot Password?
           </Typography>
           <button
-            onClick={() => router.push("recruiter/dashboard")}
-            className="bg-[#0071B6] text-white px-6 py-3 10  p-text-base rounded-md hover:opacity-100 w-full"
+            onClick={handleLogin}
+            disabled={loading}
+            className="bg-[#0071B6] text-white px-6 py-3 text-base rounded-md hover:opacity-90 w-full disabled:bg-gray-400"
           >
-            Sign In
+            {loading ? "Signing In..." : "Sign In"}
+          
+    
           </button>
 
           <Typography align="center" sx={{ fontSize: 14, fontWeight: 500 }}>

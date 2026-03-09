@@ -7,32 +7,59 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { FaUser, FaPhone, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaPhone, FaEye, FaEyeSlash } from "react-icons/fa";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 
-export default function Signup() {
+export default function RecruiterSignup() {
+
   const router = useRouter();
+
+  const [loading, setLoading] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
 
   const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
-    company: "",
-    email: "",
-    phone: "",
-    password: "",
-    agree: false,
-  });
-  const [errors, setErrors] = useState({
   firstName: "",
   lastName: "",
-  company: "",
+  companyName: "",
   email: "",
   phone: "",
   password: "",
+  agree: false
 });
+  const handleChange = (e: any) => {
+  const { name, value, type, checked } = e.target;
+
+  setForm({
+    ...form,
+    [name]: type === "checkbox" ? checked : value
+  });
+};
+
+  const handleSubmit = async () => {
+
+    setLoading(true);
+
+    const res = await fetch("/api/auth/recruiter/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(form)
+    });
+
+    const data = await res.json();
+
+    setLoading(false);
+
+    if (res.ok) {
+      alert("Signup Successful");
+      router.push("/auth/recruiter/login");
+    } else {
+      alert(data.message);
+    }
+  };
+
 
   const features: string[] = [
     "Database offers pre-interviewed and AI-assessed candidates",
@@ -41,48 +68,6 @@ export default function Signup() {
     "Engage delivers top-rated candidates through impactful hackathons",
   ];
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-
-    setForm((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-
-  const handleSubmit = () => {
-    console.log(form);
-  };
-  
-  const validate = () => {
-  let temp: any = {};
-
-  temp.firstName = form.firstName ? "" : "First Name is required";
-  temp.lastName = form.lastName ? "" : "Last Name is required";
-  temp.company = form.company ? "" : "Company Name is required";
-
-  temp.email = form.email
-    ? /\S+@\S+\.\S+/.test(form.email)
-      ? ""
-      : "Email is not valid"
-    : "Email is required";
-
-  temp.phone = form.phone
-    ? form.phone.length === 10
-      ? ""
-      : "Mobile number must be 10 digits"
-    : "Mobile number is required";
-
-  temp.password = form.password
-    ? form.password.length >= 6
-      ? ""
-      : "Minimum 6 characters required"
-    : "Password is required";
-
-  setErrors(temp);
-
-  return Object.values(temp).every((x) => x === "");
-};
 
   return (
     <main className="min-h-screen bg-white flex items-center justify-center px-4">
@@ -129,19 +114,21 @@ export default function Signup() {
           {/* COMPANY */}
           <div className="flex gap-4 p-2">
           <TextField
-            fullWidth
+           fullWidth
             placeholder="Company Name"
-            name="company"
-            value={form.company}
+           name="companyName"
+            value={form.companyName}
             onChange={handleChange}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                
                 </InputAdornment>
               ),
             }}
-          />
+            />
+                
+              
+              
           </div>
 
           {/* EMAIL */}
@@ -213,12 +200,14 @@ export default function Signup() {
             label="I agree to Privacy Policy & Terms"
           />
 
-          <button
-                  onClick={() => router.push("/auth/recruiter/login")}
-                  className="bg-[#0071B6] text-white px-5 py-3 text-base rounded-md hover:opacity-90"
-                >
-                  Sign Up
-                </button>
+           <button
+        onClick={handleSubmit}
+        disabled={loading}
+        className="bg-blue-600 text-white p-3 rounded"
+      >
+        {loading ? "Creating Account..." : "Sign Up"}
+      </button>
+
                 <div className="gap-2 mt-4">
           <Typography align="center" sx={{ fontSize: 14, fontWeight: 500 }}>
             If You Have An Existing Account,{" "}
