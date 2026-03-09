@@ -1,17 +1,10 @@
 import { NextResponse } from "next/server";
+import { sequelize } from "@/lib/db";
 
 export async function GET() {
-  if (process.env.NODE_ENV === "production") {
-    return NextResponse.json({
-      message: "DB sync disabled in production"
-    });
+  if (process.env.NODE_ENV === "development") {
+    await sequelize.sync();
   }
 
-  const { sequelize } = await import("@/lib/db");
-
-  await sequelize.sync({ alter: true });
-
-  return NextResponse.json({
-    message: "Database synced successfully"
-  });
+  return NextResponse.json({ message: "DB synced" });
 }
