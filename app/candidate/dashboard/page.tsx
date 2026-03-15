@@ -1,11 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Image from "next/image";
 import { Box, Card, CardContent, Typography, Button, Menu, MenuItem, IconButton } from "@mui/material";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FaUser, FaCircleArrowRight } from "react-icons/fa6";
 import { IoCaretDownOutline } from "react-icons/io5";
 import { FaArrowRight } from "react-icons/fa";
+import { ArrowRightAltRounded } from "@mui/icons-material";
+import { ArrowRight } from "lucide-react";
 
 
 const DashboardPage: React.FC = () => {
@@ -14,32 +16,50 @@ const DashboardPage: React.FC = () => {
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  const [index, setIndex] = useState(0);
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    setIndex((prev) => (prev + 1) % slides.length);
+  }, 3000); //
+
+  return () => clearInterval(interval);
+}, []);
   const handleClose = () => setAnchorEl(null);
   // SLIDER STATE 
- const [index, setIndex] = useState(0);
   const slides = [
     {
-      image: "/Mentoring.webp",
-      title: "Level up your tech stack",
-      subtitle: "Connect with a mentor now.",
+      title: "Mentoring",
+      text: "Level up your tech stack",
+      sub: "Connect with a mentor now.",
+      img: "/Mentoring.webp",
+      button: "Find Mentor",
     },
     {
-     image: "/Coaching.webp",
-      title: "Get career guidance",
-      subtitle: "Talk to industry experts.",
+      title: "Coaching",
+      text: "Feeling Stuck",
+      sub: "A coach can guide your next move.",
+      img: "/Coaching.webp",
+      button: "Book Coach",
     },
     {
-      image: "/Mock interiview.webp",
-      title: "Mock Interviews",
-      subtitle: "Practice with experienced mentors.",
+      title: "Mock Interview",
+      text: "Practice Interview",
+      sub: "Boost your confidence before interviews.",
+      img: "/Mockinterview.webp",
+      button: "Start Mock",
     },
   ];
-    const nextSlide = () => {
+    const next = () => {
     setIndex((prev) => (prev + 1) % slides.length);
   };
-  const prevSlide = () => {
-    setIndex((prev) => (prev + 1) % slides.length);
+
+  const prev = () => {
+    setIndex((prev) => (prev - 1 + slides.length) % slides.length);
   };
+
+  const slide = slides[index];
+
   return (
     
     <Box sx={{ p: 3, background: "#f5f5f5", minHeight: "100vh" }}>
@@ -136,113 +156,193 @@ const DashboardPage: React.FC = () => {
       </main>
       {/* Mentoring Slider */}
       <div className="flex items-center gap-10">
-        <div className="hidden lg:flex items-center justify-center">
-          <Card sx={{ borderRadius: 3 }}>
-            <CardContent>
-              <Typography fontWeight={600} color="primary">
-                Mentoring
-              </Typography>
-              <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="space-between"
-                mt={2}
-              >
-                <IconButton onClick={prevSlide}>
-                  <FaChevronLeft />
-                </IconButton>
-                <Box textAlign="center">
-                  <Image
-                    src={slides[index].image}
-                    width={120}
-                    height={120}
-                    alt="mentor"
-                  />
-                  <Typography mt={1}>
-                    {slides[index].title}
-                  </Typography>
-                  <Typography fontSize={14} color="text.secondary">
-                    {slides[index].subtitle}
-                  </Typography>
-                </Box>
-                <IconButton onClick={nextSlide}>
-                  <FaChevronRight />
-                </IconButton>
-              </Box>
-              <Button variant="contained" sx={{ mt: 2 }}>
-                Find Mentor
-              </Button>
-            </CardContent>
-          </Card>
+         <main style={{ padding: 40, maxWidth: 400 }}>
+
+      <div
+  style={{
+    position: "relative",
+    width: "360px",       
+    height: "320px",
+    minWidth: "360px",     
+    borderRadius: "12px",
+    overflow: "hidden",
+    color: "white",
+    backgroundImage: `url(${slide.img})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    flexShrink: 0          
+  }}
+>
+
+        {/* Dark overlay */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "transperent",
+          }}
+        />
+
+        {/* Content */}
+        <div
+          style={{
+            position: "relative",
+            padding: "20px",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+
+          {/* Content */}
+  <div style={{ position: "relative", padding: "20px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+    {/* Header */}
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <span style={{ fontWeight: 600, color: "#2286CA" }}>{slide.title}</span>
+      {slide.label && (
+        <span style={{ fontSize: 12, display: "flex", alignItems: "center", gap: 6, color: "#00B515" }}>
+          <span style={{ width: 12, height: 12, background: "#B9FFB0", border: "2px solid #00B515", borderRadius: "50%" }} />
+          {slide.label}
+        </span>
+      )}
+    </div>
+
+    {/* Body */}
+    <div>
+      <div style={{ fontWeight: 600, color: "#000000" }}>{slide.text}</div>
+      <div style={{ fontSize: 14, color: "#000000" }}>{slide.sub}</div>
+    </div>
+  </div>
+
+          {/* Button */}
+          <button
+            style={{
+              padding: "10px",
+              borderRadius: "8px",
+              border: "none",
+              background: "#1c7ed6",
+              color: "white",
+              cursor: "pointer",
+            }}
+          >
+            {slide.button} →
+          </button>
         </div>
-        {/* Skills Card */}
-        <div className="hidden lg:flex p-10 h-500px w-900px items-center gap-4 justify-center p-8">
-          <Card>
-            <CardContent sx={{ borderRadius: 3 }}>
-              <Typography variant="h6">
-                Skills
-              </Typography>
-              <Box mt={2}>
-                <Typography variant="body2">C Data Types</Typography>
-                <Box sx={{ height: 8, background: "#e0e0e0", borderRadius: 5 }}>
-                  <Box sx={{ width: "100%", height: 8, background: "#1976d2", borderRadius: 5 }} />
-                </Box>
-                <Typography variant="caption" color="primary">
-                  Expert
-                </Typography>
-              </Box>
-              <Box mt={2}>
-                <Typography variant="body2">Apache</Typography>
-                <Box sx={{ height: 8, background: "#e0e0e0", borderRadius: 5 }}>
-                  <Box sx={{ width: "80%", height: 8, background: "#1976d2", borderRadius: 5 }} />
-                </Box>
-                <Typography variant="caption" color="primary">
-                  Master
-                </Typography>
-              </Box>
-              <Box mt={2}>
-                <Typography variant="body2">Adobe Photoshop</Typography>
-                <Box sx={{ height: 8, background: "#e0e0e0", borderRadius: 5 }}>
-                  <Box sx={{ width: "85%", height: 8, background: "#1976d2", boderRadius: 5 }} />
-                </Box>
-                <Typography variant="caption" color="primary">
-                  Expert
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </div>
-        {/* Salary Predictor Card */}
-        <Card>
-          <CardContent>
-            <Typography variant="h6">
-              Salary Predictor
-            </Typography>
-            <Typography variant="body2" mt={1}>
-              Current Salary: <b>15000</b>
-            </Typography>
-            <Box display="flex" justifyContent="center" mt={3}>
-              <Box
-                sx={{
-                  width: 160,
-                  height: 80,
-                  borderTopLeftRadius: 160,
-                  borderTopRightRadius: 160,
-                  background:
-                    "linear-gradient(to right, red, orange, yellow, green)",
-                }}
-              />
-            </Box>
-            <Box display="flex" justifyContent="space-between" mt={1}>
-              <Typography variant="caption">Min</Typography>
-              <Typography variant="caption">Max</Typography>
-            </Box>
-            <Button variant="contained" sx={{ mt: 2 }}>
-              Salary Predictor
-            </Button>
-          </CardContent>
-        </Card>
+
+        {/* Arrows */}
+        <button
+    onClick={prev}
+    style={{
+      position: "absolute",
+      top: "50%",
+      left: 10,
+      background: "rgba(0,255,255,255)",
+      color: "white",
+      borderRadius: "50%",
+      padding: "8px",
+      cursor: "pointer",
+    }}
+  >
+    <FaChevronLeft />
+  </button>
+
+  {/* Right Arrow */}
+  <button
+    onClick={next}
+    style={{
+      position: "absolute",
+      top: "50%",
+      right: 10,
+      
+      background: "rgba(0,255,255,255)",
+      color: "white",
+      borderRadius: "50%",
+      padding: "8px",
+      cursor: "pointer",
+    }}
+  >
+    <FaChevronRight />
+  </button>
+
       </div>
+
+    </main>
+    {/*Skill Card*/}
+       <div className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-5 MuiGrid-grid-lg-5 flex justify-center items-center">
+  <div className="h-[300px] max-w-[500px] border border-card rounded-lg bg-white shadow-md overflow-hidden p-6 flex items-center justify-center">
+    <Image
+      src="/skillcard.png"
+      alt="Skills"
+      width={400}
+      height={200}   
+      className="object-contain rounded-lg"
+    />
+  </div>
+</div>
+        {/* Salary Predictor Card */}
+      <Card
+  sx={{
+    maxWidth: 300,
+    mx: "auto",
+    borderRadius: 3,
+    boxShadow: 3,
+    p: 2,
+    backgroundColor: "#fff",
+  }}
+>
+  <CardContent>
+    {/* Header */}
+    <Typography variant="h6" fontWeight={600} color="primary">
+      Salary Predictor
+    </Typography>
+
+    {/* Current Salary */}
+    <Typography variant="body2" mt={1} color="text.primary">
+      Current Salary: <b>₹15,000</b>
+    </Typography>
+
+    {/* Salary Meter */}
+    <Box display="flex" justifyContent="center" mt={3} mb={1}>
+      <Box
+        sx={{
+          width: 180,
+          height: 90,
+          borderTopLeftRadius: 180,
+          borderTopRightRadius: 180,
+          background: "linear-gradient(to right, #ff4d4f, #fa8c16, #fadb14, #52c41a)",
+        }}
+      />
+    </Box>
+
+    {/* Min / Max labels */}
+    <Box display="flex" justifyContent="space-between" px={1}>
+      <Typography variant="caption" color="text.secondary">
+        Min
+      </Typography>
+      <Typography variant="caption" color="text.secondary">
+        Max
+      </Typography>
+    </Box>
+
+    {/* Action Button */}
+    <Button
+      variant="contained"
+      fullWidth
+      sx={{
+        mt: 3,
+        borderRadius: 2,
+        background: "linear-gradient(to right, #0071B6, #00aaff)",
+        "&:hover": {
+          background: "linear-gradient(to right, #005f96, #0088cc)",
+        },
+      }}
+    >
+       Salary Predictor
+    </Button>
+  </CardContent>
+</Card>
+</div>
       {/* Left Section */}
       <main className="min-h-20 bg-radius flex items-center justify-Left px-4 gap-10">
         <div className="h-[200px] w-[880px] rounded-xl bg-white p-3 text-Black flex items-Top  justify-between mb-6 gap-6">
@@ -322,6 +422,7 @@ const DashboardPage: React.FC = () => {
         </div>
       </main>
     </Box>
+    
   );
 };
 export default DashboardPage;

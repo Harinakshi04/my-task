@@ -13,7 +13,6 @@ export default function NavbarSwitcher() {
   const authRoutes = [
 
     "/auth/recruiter/account",
-
     "/auth/candidate/account",
     "/auth/recruiter/login",
     "/auth/recruiter/signup",
