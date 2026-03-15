@@ -235,7 +235,7 @@ export default function Signup() {
 
             <Typography
               className="slide-up  mt-4"
-              sx={{ fontSize: 18, fontWeight: 500 }}
+              sx={{ fontSize: 20, fontWeight: 500 }}
             >
               CHAL Curatal and take the leap towards your dream career!
             </Typography>

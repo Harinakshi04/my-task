@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import curatalLogo from "../public/logo.png";
 import Footer from "@/components/Footer";
+import NavbarSwitcher from "@/components/NavbarSwitcher";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,7 +31,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar/>
+       <NavbarSwitcher/>
         {children}
        <Footer/>
       </body>

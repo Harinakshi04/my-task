@@ -6,7 +6,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FaUser, FaCircleArrowRight } from "react-icons/fa6";
 import { IoCaretDownOutline } from "react-icons/io5";
 import { FaArrowRight } from "react-icons/fa";
-import TopNavbar from "@/components/candidate/TopNavbar";
+
 
 const DashboardPage: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -43,7 +43,7 @@ const DashboardPage: React.FC = () => {
   return (
     
     <Box sx={{ p: 3, background: "#f5f5f5", minHeight: "100vh" }}>
-     <TopNavbar/>
+  
       {/* Welcome */}
       <Typography variant="h5" fontWeight="600" mb={3}>
         Welcome Harinakshi Naik!

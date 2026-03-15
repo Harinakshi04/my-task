@@ -23,8 +23,6 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import TopNavbar from "@/components/recruiter/TopNavbar";
-
 const data = [
   { name: "Interviewed", value: 141616 },
   { name: "Not Interviewed", value: 713985 },
@@ -49,7 +47,7 @@ export default function DashboardPage() {
 
   return (
     <Box sx={{ background: "#f4f6f8", minHeight: "100vh", p: 3 }}>
-     <TopNavbar/>
+     
       {/* Header */}
       <Typography variant="h5" fontWeight="bold">
         Dashboard
