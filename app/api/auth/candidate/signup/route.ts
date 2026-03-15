@@ -27,7 +27,7 @@ export async function POST(req: Request) {
       gender,
     });
 
-    return NextResponse.json({ message: "Signup successful", user: newUser });
+    return NextResponse.json({ message: " ", user: newUser });
   } catch (error: any) {
     console.error("Candidate Signup Error:", error);
     return NextResponse.json({ message: error.message || "Something went wrong" }, { status: 500 });

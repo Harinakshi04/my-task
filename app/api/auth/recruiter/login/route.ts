@@ -39,7 +39,7 @@ export async function POST(req: Request) {
     const { password: _, ...userData } = user.toJSON();
 
     return NextResponse.json({
-      message: "Login successful",
+      message: " ",
       user: userData,
     });
   } catch (error: any) {
