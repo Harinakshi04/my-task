@@ -210,7 +210,7 @@ export default function RecruiterSignup() {
 
                 <div className="gap-2 mt-4">
           <Typography align="center" sx={{ fontSize: 14, fontWeight: 500 }}>
-            If You Have An Existing Account,{" "}
+            f You Have An Existing Account,
             <span
               className="text-blue-600 cursor-pointer"
               onClick={() => router.push("/auth/recruiter/login")}
