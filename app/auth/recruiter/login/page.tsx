@@ -55,9 +55,6 @@ export default function RecruiterLogin() {
       throw new Error(data.message);
     }
 
-    localStorage.setItem("token", data.token);
-
-    alert("Login successful");
 
     router.push("/recruiter/dashboard");
 

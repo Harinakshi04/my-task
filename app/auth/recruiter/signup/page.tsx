@@ -53,7 +53,7 @@ export default function RecruiterSignup() {
     setLoading(false);
 
     if (res.ok) {
-      alert("Signup Successful");
+      alert("");
       router.push("/auth/recruiter/login");
     } else {
       alert(data.message);
@@ -197,7 +197,7 @@ export default function RecruiterSignup() {
                 onChange={handleChange}
               />
             }
-            label="I agree to Privacy Policy & Terms"
+            label="By Signing Up, I Agree To Curatal's Privacy Policy and Terms Of Service"
           />
 
            <button
@@ -240,7 +240,7 @@ export default function RecruiterSignup() {
             </Typography>
             <Typography
               className="slide-up  mt-4"
-              sx={{ fontSize: 18, fontWeight: 500 }}
+              sx={{ fontSize: 20, fontWeight: 550 }}
             >
               CHAL Curatal and take the leap towards your dream career!
             </Typography>

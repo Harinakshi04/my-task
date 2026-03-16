@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import curatalLogo from "../public/logo.png";
 import Footer from "@/components/Footer";
 import NavbarSwitcher from "@/components/NavbarSwitcher";
+import FooterSwitcher from "@/components/FooterSwitches";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,7 +34,7 @@ export default function RootLayout({
       >
        <NavbarSwitcher/>
         {children}
-       <Footer/>
+      <FooterSwitcher/>
       </body>
     </html>
   );
