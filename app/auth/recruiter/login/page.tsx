@@ -3,21 +3,12 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Typography from "@mui/material/Typography";
-import { Button } from "@/components/ui/button";
-import { FaCheckCircle, FaUser, FaUserPlus } from "react-icons/fa";
-
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import Image from "next/image";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
-import { text } from "stream/consumers";
-import LinkedinIcon from "@/public/Linkedin.jpg";
-import GoogleIcon from "@/public/google.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import IconButton from "@mui/material/IconButton";
-import CuratalLogo from "@/public/curatalLogo.jpg";
-import { useEffect } from "react";
+
 
   const features: string[] = [
     "Database offers pre-interviewed and AI-assessed candidates",
@@ -35,36 +26,41 @@ export default function RecruiterLogin() {
   const [showPassword, setShowPassword] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
-  const handleLogin = async (e: any) => {
-  e.preventDefault();
+  const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
 
-  try {
-    const res = await fetch("/api/auth/recruiter/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const res = await fetch("/api/auth/recruiter/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (!res.ok) {
-      throw new Error(data.message);
+      if (!res.ok) {
+        throw new Error(data.message);
+      }
+
+      try {
+        if (typeof window !== "undefined") {
+          localStorage.setItem("recruiterUser", JSON.stringify(data.user));
+        }
+      } catch (storageError) {
+        console.error("Failed to store recruiter user in localStorage", storageError);
+      }
+
+      router.push("/recruiter/dashboard");
+    } catch (error: any) {
+      console.error("Login Error:", error.message);
+      alert(error.message);
     }
-
-
-    router.push("/recruiter/dashboard");
-
-  } catch (error: any) {
-    console.error("Login Error:", error.message);
-    alert(error.message);
-  }
-};
+  };
   return (
-    
+
 
       <main className="min-h-screen bg-white flex items-center justify-center px-4">
       <div className="w-full max-w-7xl bg-[#EBF7FF] rounded-2xl p-6 flex flex-col lg:flex-row gap-10">
@@ -183,8 +179,8 @@ export default function RecruiterLogin() {
             className="bg-[#0071B6] text-white px-6 py-3 text-base rounded-md hover:opacity-90 w-full disabled:bg-gray-400"
           >
             {loading ? "Signing In..." : "Sign In"}
-          
-    
+
+
           </button>
 
           <Typography align="center" sx={{ fontSize: 14, fontWeight: 500 }}>
@@ -195,3 +191,4 @@ export default function RecruiterLogin() {
       </main> 
   );
 };
+ 

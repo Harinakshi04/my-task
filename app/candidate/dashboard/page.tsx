@@ -66,7 +66,7 @@ useEffect(() => {
   
       {/* Welcome */}
       <Typography variant="h5" fontWeight="600" mb={3}>
-        Welcome Harinakshi Naik!
+        
       </Typography>
       {/* Profile Section */}
       <Box display="flex" alignItems="center" gap={2} mb={4}>

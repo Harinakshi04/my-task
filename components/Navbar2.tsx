@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Typography,
   Box,
@@ -24,7 +24,8 @@ export default function TopNavbar() {
 
   // Avatar menu state
   const [profileAnchor, setProfileAnchor] = useState<null | HTMLElement>(null);
-
+  const [recruiterName, setRecruiterName] = useState<string | null>(null);
+  
   const openWallet = Boolean(anchorEl);
   const openProfile = Boolean(profileAnchor);
 
@@ -54,6 +55,38 @@ export default function TopNavbar() {
     console.log("Selected:", selected);
     setAnchorEl(null);
   };
+
+    useEffect(() => {
+        if (typeof window === "undefined") {
+          return;
+        }
+    
+        try {
+          const storedUser = localStorage.getItem("recruiterUser");
+          if (!storedUser) {
+            return;
+          }
+    
+          const user = JSON.parse(storedUser) as {
+            firstName?: string;
+            lastName?: string;
+            email?: string;
+          };
+    
+          const fullName = [user.firstName, user.lastName]
+            .filter((part) => !!part && part.trim().length > 0)
+            .join(" ")
+            .trim();
+    
+          if (fullName) {
+            setRecruiterName(fullName);
+          } else if (user.email) {
+            setRecruiterName(user.email);
+          }
+        } catch (error) {
+          console.error("Failed to load recruiter user from storage", error);
+        }
+      }, []);
 
   return (
     <header
@@ -152,7 +185,9 @@ export default function TopNavbar() {
             onClick={handleProfileClick}
             className="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center font-semibold cursor-pointer"
           >
-            HN
+           {
+          recruiterName ?  recruiterName.slice(0,1) : ""
+           }
           </div>
 
           {/* Profile Menu */}
@@ -171,6 +206,7 @@ export default function TopNavbar() {
             <MenuItem onClick={handleProfileClose}>Privacy Policy</MenuItem>
             <MenuItem
              onClick={() => {
+              localStorage.removeItem("recruiterUser")
              setProfileAnchor(null);
              router.push("/auth/candidate/account");
              }}

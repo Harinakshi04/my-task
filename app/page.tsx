@@ -39,8 +39,8 @@ export default function LoginPage() {
             </Typography>
 
             <Typography
-              className="slide-up text-center mt-4"
-              sx={{ fontSize: 18, fontWeight: 500 }}
+              className="slide-up  mt-4"
+              sx={{ fontSize: 20, fontWeight: 550 }}
             >
               CHAL Curatal to streamline your tech hiring and get top-tier talent fast.
             </Typography>

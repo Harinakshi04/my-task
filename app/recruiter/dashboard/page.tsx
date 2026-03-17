@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   Box,
@@ -13,8 +13,9 @@ import {
   Select,
   Stack,
   Skeleton,
-  MenuItem
+  MenuItem,
 } from "@mui/material";
+import type { SelectChangeEvent } from "@mui/material/Select";
 import {
   PieChart,
   Pie,
@@ -33,6 +34,7 @@ export default function DashboardPage() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [company, setCompany] = useState("");
+  const [recruiterName, setRecruiterName] = useState<string | null>(null);
 
   const handleResetFilters = () => {
     setStartDate("");
@@ -44,17 +46,47 @@ export default function DashboardPage() {
     setCompany(event.target.value);
   };
 
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
 
+    try {
+      const storedUser = localStorage.getItem("recruiterUser");
+      if (!storedUser) {
+        return;
+      }
+
+      const user = JSON.parse(storedUser) as {
+        firstName?: string;
+        lastName?: string;
+        email?: string;
+      };
+
+      const fullName = [user.firstName, user.lastName]
+        .filter((part) => !!part && part.trim().length > 0)
+        .join(" ")
+        .trim();
+
+      if (fullName) {
+        setRecruiterName(fullName);
+      } else if (user.email) {
+        setRecruiterName(user.email);
+      }
+    } catch (error) {
+      console.error("Failed to load recruiter user from storage", error);
+    }
+  }, []);
   return (
     <Box sx={{ background: "#f4f6f8", minHeight: "100vh", p: 3 }}>
-     
+
       {/* Header */}
       <Typography variant="h5" fontWeight="bold">
         Dashboard
       </Typography>
       <div className="flex gap-3 justify-between p-3 ">
         <Typography mb={3}>
-          Welcome Harinakshi Timmappa Naik!
+          Welcome {recruiterName ?? "Recruiter"}!
         </Typography>
 
         {/* Filters */}

@@ -13,13 +13,11 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 export default function Login() {
   const router = useRouter();
 
- 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
- 
   const features: string[] = [
     "Build a standout resume with customizable templates",
     "Get matched with jobs tailored to your skills",
@@ -28,12 +26,8 @@ export default function Login() {
     "Get assessed, receive personalized insights, and grow with Curatal",
   ];
 
+  const isFormValid = email.trim() !== "" && password.trim() !== "";
 
-  const isFormValid =
-    email.trim() !== "" &&
-    password.trim() !== "";
-
-  
   const handleLogin = async () => {
     if (!isFormValid) {
       alert("Please enter email and password");
@@ -53,16 +47,11 @@ export default function Login() {
 
       const data = await res.json();
 
-      console.log("Login Response:", data);
-
       if (!res.ok) {
         throw new Error(data.message || "Login failed");
       }
 
-    
       localStorage.setItem("token", data.token);
-
-    
       router.push("/candidate/dashboard");
 
     } catch (error: any) {
