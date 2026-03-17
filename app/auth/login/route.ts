@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { Candidate } from "@/models/candidate";
-import { Recruiter } from "@/models/recruiter";
 import { dbInit } from "@/lib/db";
 
 export async function POST(req: Request) {
@@ -18,39 +17,41 @@ export async function POST(req: Request) {
       );
     }
 
-    // check candidate first
-    let user: any = await Candidate.findOne({ where: { email } });
-    let role = "candidate";
-
-    // if not candidate → check recruiter
-    if (!user) {
-      user = await Recruiter.findOne({ where: { email } });
-      role = "recruiter";
-    }
+    const user = await Candidate.findOne({ where: { email } });
 
     if (!user) {
       return NextResponse.json(
-        { message: "User not found" },
-        { status: 404 }
+        { message: "Invalid email or password" },
+        { status: 400 }
       );
     }
 
-    // compare password
-    const isMatch = await bcrypt.compare(password, user.password);
+    // IMPORTANT: use getDataValue
+    const hashedPassword = user.getDataValue("password");
+
+    if (!hashedPassword) {
+      return NextResponse.json(
+        { message: "Password not found in database" },
+        { status: 500 }
+      );
+    }
+
+    const isMatch = await bcrypt.compare(password, hashedPassword);
 
     if (!isMatch) {
       return NextResponse.json(
-        { message: "Invalid password" },
-        { status: 401 }
+        { message: "Invalid email or password" },
+        { status: 400 }
       );
     }
 
-    // create token
+    const { password: _, ...userData } = user.toJSON();
+
     const token = jwt.sign(
       {
-        id: user.id,
-        email: user.email,
-        role: role,
+        id: userData.id,
+        email: userData.email,
+        role: "candidate",
       },
       process.env.JWT_SECRET!,
       { expiresIn: "1d" }
@@ -59,18 +60,12 @@ export async function POST(req: Request) {
     return NextResponse.json({
       message: "",
       token,
-      role,
-      redirect:
-        role === "candidate"
-          ? "/candidate/dashboard"
-          : "/recruiter/dashboard",
+      user: userData,
     });
-
-  } catch (error) {
-    console.error("Login error:", error);
-
+  } catch (error: any) {
+    console.error("Candidate Login Error:", error);
     return NextResponse.json(
-      { message: "Internal server error" },
+      { message: "Login failed" },
       { status: 500 }
     );
   }

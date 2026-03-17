@@ -51,12 +51,21 @@ export default function Login() {
         throw new Error(data.message || "Login failed");
       }
 
-      localStorage.setItem("token", data.token);
+      if (data?.token) {
+        localStorage.setItem("token", data.token);
+      }
+
+      if (data?.user) {
+        localStorage.setItem("candidateUser", JSON.stringify(data.user));
+      }
+
       router.push("/candidate/dashboard");
 
-    } catch (error: any) {
-      console.error("Login Error:", error.message);
-      alert(error.message);
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Login failed. Please try again.";
+      console.error("Login Error:", message);
+      alert(message);
     } finally {
       setLoading(false);
     }

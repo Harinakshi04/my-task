@@ -1,5 +1,5 @@
 "use client";
-import React, { useState,useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Box, Card, CardContent, Typography, Button, Menu, MenuItem, IconButton } from "@mui/material";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -9,6 +9,14 @@ import { FaArrowRight } from "react-icons/fa";
 import { ArrowRightAltRounded } from "@mui/icons-material";
 import { ArrowRight } from "lucide-react";
 
+type Slide = {
+  title: string;
+  text: string;
+  sub: string;
+  img: string;
+  button: string;
+  label?: string;
+};
 
 const DashboardPage: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -17,6 +25,42 @@ const DashboardPage: React.FC = () => {
     setAnchorEl(event.currentTarget);
   };
   const [index, setIndex] = useState(0);
+  const [candidateName, setCandidateName] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    try {
+      const storedUser = localStorage.getItem("candidateUser");
+      if (!storedUser) {
+        return;
+      }
+
+      const user = JSON.parse(storedUser) as {
+        firstName?: string;
+        lastName?: string;
+        name?: string;
+        email?: string;
+      };
+
+      const fullName = [user.firstName, user.lastName]
+        .filter((part) => !!part && part.trim().length > 0)
+        .join(" ")
+        .trim();
+
+      if (user.name && user.name.trim().length > 0) {
+        setCandidateName(user.name.trim());
+      } else if (fullName) {
+        setCandidateName(fullName);
+      } else if (user.email) {
+        setCandidateName(user.email);
+      }
+    } catch (error) {
+      console.error("Failed to load candidate user from storage", error);
+    }
+  }, []);
 
 useEffect(() => {
   const interval = setInterval(() => {
@@ -27,7 +71,7 @@ useEffect(() => {
 }, []);
   const handleClose = () => setAnchorEl(null);
   // SLIDER STATE 
-  const slides = [
+  const slides: Slide[] = [
     {
       title: "Mentoring",
       text: "Level up your tech stack",
@@ -61,12 +105,12 @@ useEffect(() => {
   const slide = slides[index];
 
   return (
-    
+
     <Box sx={{ p: 3, background: "#f5f5f5", minHeight: "100vh" }}>
-  
+
       {/* Welcome */}
       <Typography variant="h5" fontWeight="600" mb={3}>
-        
+        Welcome {candidateName ?? "Candidate"}!
       </Typography>
       {/* Profile Section */}
       <Box display="flex" alignItems="center" gap={2} mb={4}>
@@ -254,7 +298,7 @@ useEffect(() => {
       position: "absolute",
       top: "50%",
       right: 10,
-      
+
       background: "rgba(0,255,255,255)",
       color: "white",
       borderRadius: "50%",
@@ -422,8 +466,9 @@ useEffect(() => {
         </div>
       </main>
     </Box>
-    
+
   );
 };
 export default DashboardPage;
 
+ 
