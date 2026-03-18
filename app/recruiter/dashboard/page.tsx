@@ -83,20 +83,10 @@ export default function DashboardPage({}) {
     background: "#f4f6f8",
     minHeight: "calc(100vh - 80px)",
     mt: "80px",
-    ml: {
-      xs: "0px",   
-      sm: "80px", 
-      md: "256px", 
-    },
-    width: {
-      xs: "100%",
-      sm: "calc(100% - 80px)",
-      md: "calc(100% - 256px)",
-    },
-    transition: "all 0.3s ease",
     p: { xs: 2, md: 3 },
   }}
 >
+
       {/* Header */}
       <Typography variant="h5" fontWeight="bold">
         Dashboard
