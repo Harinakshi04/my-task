@@ -121,10 +121,9 @@ export default function TopNavbar() {
   }, []);
 
   return (
-    <header
-      className="z-40 w-full py-4 bg-white lg:px-1 sm:h-20"
-      style={{ boxShadow: "rgba(0,0,0,0.16) 0px 3px 6px" }}
-    >
+   <header
+  className="fixed top-0 left-0 right-0 z-40 w-full py-4 bg-white lg:px-1 sm:h-20"
+>
       <div className="w-full flex sm:gap-5 lg:gap-[132px] items-center justify-between px-1 sm:px-5 h-full">
         {/* Logo */}
         <img src="/curatalLogo.jpg" alt="logo" className="w-28 sm:w-[140px]" />
@@ -262,7 +261,7 @@ export default function TopNavbar() {
                   localStorage.removeItem("candidateUser");
                 }
                 setProfileAnchor(null);
-                router.push("/auth/login");
+                router.push("/auth/candidate/account");
               }}
             >
               Logout

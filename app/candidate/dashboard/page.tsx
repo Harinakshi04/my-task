@@ -106,7 +106,7 @@ useEffect(() => {
 
   return (
 
-    <Box sx={{ p: 3, background: "#f5f5f5", minHeight: "100vh" }}>
+    <Box sx={{ p: 3, background: "#f5f5f5", minHeight: "100vh", mt: "80px" }}>
 
       {/* Welcome */}
       <Typography variant="h5" fontWeight="600" mb={3}>

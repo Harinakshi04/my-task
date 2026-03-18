@@ -34,8 +34,9 @@ export default function CandidateSidebar() {
  
 
   return (
+    
     <div
-      className={`h-screen bg-[#156ea5] text-white transition-all duration-300 ${
+      className={`fixed h-screen bg-[#156ea5] text-white transition-all duration-300 ${
         collapsed ? "w-20" : "w-64"
       } relative`}
     >   
